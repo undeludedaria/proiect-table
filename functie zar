@@ -1,0 +1,32 @@
+#include<iostream>
+#include<time.h>
+#include<stdlib.h>
+
+using namespace std;
+int randnum()
+{
+int random;
+
+do
+{
+random=rand()%6;
+if(random<6 && random>0)
+return random;}
+while(random==0 );
+
+}
+int main()
+{
+int n,zar1, zar2;
+cout<<"n=";
+cin>>n;
+srand(time(NULL));
+for(int i=0;i<n;i++)
+{
+zar1=randnum();
+zar2=randnum();
+cout<<zar1<<" "<<zar2<<endl;
+}
+cout<<endl;
+return 0;
+}
