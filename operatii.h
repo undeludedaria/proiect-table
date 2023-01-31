@@ -1,32 +1,53 @@
-#include<iostream>
-#include<time.h>
 #include<stdlib.h>
+#include <iostream>
+#include <windows.h>
 
 using namespace std;
-int randnum()
-{
-int random;
 
-do
-{
-random=rand()%6;
-if(random<6 && random>0)
-return random;}
-while(random==0 );
 
+
+struct nod{
+    int info;
+    bool culoare;
+    nod*leg;
+};
+
+bool culoare(int n,nod*p){
+    nod*q;
+    int ord = 1;
+    while(ord != n)
+    {
+        p = p->leg;
+    }
+    return p->culoare;
 }
-int main()
+
+int cauta(int n,nod*p)
 {
-int n,zar1, zar2;
-cout<<"n=";
-cin>>n;
-srand(time(NULL));
-for(int i=0;i<n;i++)
-{
-zar1=randnum();
-zar2=randnum();
-cout<<zar1<<" "<<zar2<<endl;
+    nod*q,*u;
+    int ord;
+    while(ord!=n)
+    {
+        p=p->leg;
+    }
+    return p->info;
 }
-cout<<endl;
-return 0;
+
+void piesa(int n)
+{
+    if(n==1)
+    {
+        cout<<"🔴";
+    }
+    if(n==0)
+    {
+        cout<<"⚪";
+    }
+}
+
+
+
+
+int randnum(){
+    return rand()%6+1;;
 }
