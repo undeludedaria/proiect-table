@@ -2,6 +2,7 @@
 #include<time.h>
 #include<stdlib.h>
 #include "operatii.h"
+#include <windows.h>
 using namespace std;
 #define LAT 24
 #define LUNG 12
@@ -97,8 +98,15 @@ int main(){
     l=new nod;
     l->info=0;
     l->culoare=0;
-    q->leg=0;
+    q->leg=l;
     q=l;
+
+    l=new nod;
+    l->info=0;
+    l->culoare=0;
+    q->leg=l;
+    q=l;
+    q->leg=NULL;
 
 
 
@@ -126,5 +134,14 @@ int main(){
         cout << endl;
     }
 
+   /*  cout<<"■";
+     cout<<"□";
+q=p;
+    for( int i=1;i<=24;i++)
+    {cout<<q->info<<" ";
+    q=q->leg;
+
+    }
+    */
     return 0;
 }
