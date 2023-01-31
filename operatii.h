@@ -37,11 +37,11 @@ void piesa(int n)
 {
     if(n==1)
     {
-        cout<<"🔴";
+        cout<<"■";
     }
     if(n==0)
     {
-        cout<<"⚪";
+        cout<<"□";
     }
 }
 
