@@ -1,6 +1,5 @@
 #include<stdlib.h>
 #include <iostream>
-#include <windows.h>
 
 using namespace std;
 
@@ -13,22 +12,22 @@ struct nod{
 };
 
 bool culoare(int n,nod*p){
-    nod*q;
-    int ord = 1;
+		int ord = 1;
     while(ord != n)
     {
         p = p->leg;
+				ord++;
     }
     return p->culoare;
 }
 
 int cauta(int n,nod*p)
 {
-    nod*q,*u;
-    int ord;
+    int ord = 1;
     while(ord!=n)
     {
         p=p->leg;
+				ord++;
     }
     return p->info;
 }
