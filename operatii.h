@@ -3,7 +3,14 @@
 
 using namespace std;
 
-
+char piesa[7][20]={{"     ////////     "},
+								{"  //////////////  "},
+								{" //////////////// "},
+								{"//////////////////"},
+		            {" //////////////// "},
+								{"  //////////////  "},
+								{"     ////////     "}
+							};
 
 struct nod{
     int info;
@@ -32,16 +39,9 @@ int cauta(int n,nod*p)
     return p->info;
 }
 
-void piesa(int n)
+void out_piesa(bool c, short int n)
 {
-    if(n==1)
-    {
-        cout<<"■";
-    }
-    if(n==0)
-    {
-        cout<<"□";
-    }
+	 cout << "piesa";
 }
 
 
