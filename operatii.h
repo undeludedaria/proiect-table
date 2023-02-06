@@ -80,6 +80,21 @@ void muta(int ni, int nj, nod*p, nod*q){
     }
 }
 
+bool piesa2(){
+    int xps=xpi+13, xps=yps=ypi+4;
+}
+
+bool piesa(int x,int y,nod*p)
+{
+    for(int i=0;i<120;i++)
+    {
+        if(piesa2(piese[i].xpi , piese[i].ypi))
+        {
+            return true;
+        }
+    }
+}
+
 bool culoare(int n,nod*p){
     nod*q;
     int ord = 1;
