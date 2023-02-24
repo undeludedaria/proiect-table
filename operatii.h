@@ -3,21 +3,32 @@
 
 using namespace std;
 
-char piesa[7][20]={{"     ////////     "},
-								{"  //////////////  "},
-								{" //////////////// "},
-								{"//////////////////"},
-		            {" //////////////// "},
-								{"  //////////////  "},
-								{"     ////////     "}
+char piesa[7][20]={
+								 "////////",     
+ 							 "////////////", 
+							"//////////////",
+ 								"///////////", 
+   							  "///////"
 							};
 
-struct nod{
-    int info;
-    bool culoare;
-    nod*leg;
+struct locpi{
+	int x;
+	int y;
+	bool c;
+	locpi*leg;
+
 };
 
+struct layout{
+	int info;
+	bool c;
+};
+
+
+
+
+
+/*
 bool culoare(int n,nod*p){
 		int ord = 1;
     while(ord != n)
@@ -44,7 +55,7 @@ void out_piesa(bool c, short int n)
 	 cout << "piesa";
 }
 
-
+*/
 
 
 int randnum(){
