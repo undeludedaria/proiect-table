@@ -22,103 +22,6 @@ int main(){
 
 				srand(time(NULL));
 				//system("chcp 65001 > nul");
-				/*nod *p = new nod;
-				p->culoare=0;
-				p->info=5;
-				nod*q=p;
-
-				for(int i = 1; i <= 4; i++){
-				nod*n = new nod;
-				q->leg=n;
-				n->info=0;
-				n->culoare=0;
-				q=n;
-				}
-
-				nod*l=new nod;
-				q->leg=l;
-				l->info=2;
-				l->culoare=1;
-				q=l;
-
-				l=new nod;
-				l->info = 5;
-				l->culoare=1;
-				q->leg=l;
-				q=l;
-
-				for(int i = 1; i <= 3; i++){
-				nod*n = new nod;
-				q->leg=n;
-				n->info=0;
-				n->culoare=0;
-				q=n;
-				}
-
-				l=new nod;
-				l->info=3;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-
-				l=new nod;
-				l->info=0;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-
-				l = new nod;
-				l->info=5;
-				l->culoare=1;
-				q->leg=l;
-				q=l;
-
-				for(int i = 1; i <= 4; i++){
-				nod *n = new nod;
-				q->leg=n;
-				n->info=0;
-				n->culoare=0;
-				q=n;
-				}
-				l=new nod;
-				l->info=2;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-
-				l=new nod ;
-				l->info =5;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-
-				for(int i = 1; i <= 3; i++){
-				nod *n = new nod;
-				q->leg=n;
-				n->info=0;
-				n->culoare=0;
-				q=n;
-				}
-
-				l=new nod;
-				l->info=3;
-				l->culoare=1;
-				q->leg=l;
-				q=l;
-
-				l=new nod;
-				l->info=0;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-
-				l=new nod;
-				l->info=0;
-				l->culoare=0;
-				q->leg=l;
-				q=l;
-				q->leg=NULL;
-				*/
 
 
 				layout lay[24];
@@ -164,7 +67,7 @@ int main(){
 				lay[23].c=1;
 
 				
-
+				muta(0,1, lay);
 
 				locpi*l;
 				locpi*q;
@@ -189,16 +92,19 @@ int main(){
 						l->x=xp;
 						l->y=yp;
 						l->c=lay[i].c;	
-						yp+=5;
+						yp+=6;
 					}
-					xp+=20;
+					if(i==6)
+						xp+=33;
+					else	
+						xp+=18;
 			
 				}
-
+				xp=224;
 				
 				for(int i=12; i<24; i++){
 				
-					yp=82;
+					yp=77;
 					for(int j=0; j<lay[i].info; j++){
 						l=new locpi;
 						if(prim){
@@ -213,9 +119,13 @@ int main(){
 						l->x=xp;
 						l->y=yp;
 						l->c=lay[i].c;	
-						yp-=5;
+						yp-=6;
 					}
-					xp+=20;
+					if(i==17)
+						xp-=33;
+					else	
+						xp-=18;
+
 			
 				}
 
@@ -226,71 +136,101 @@ int main(){
 				}
 			
 				
-     /*cout<<"■";
-     cout<<"□";
-q=p;
-    for( int i=1;i<=24;i++)
-    {cout<<q->info<<" ";
-    q=q->leg;
-
-    }
 	
-		cout << endl << culoare(1, p) << " " << culoare(7, p) << endl;
-		*/
+	//  animatie //
+	int ox, oy, fx, fy, k=0, dir;
 
+	ox=50;
+	oy=50;
+	fx=100;
+	fy=60;
 
+	int difx=ox>fx?ox-fx:fx-ox;
+	int dify=oy>fy?oy-fy:fy-oy;	
+	int lp;
 
-	for(int i=0; i<100; i++){
-		for(int j=0; j<250; j++){
-			if(exist(i, j, p)){
-				if(COL==0){
-					cout << red << '/' << reset;
-				}else{
-					cout << green << '/' << reset;
-				}		
-			}else{
-				cout << tabla[i][j];
-			}
-
-		}
-		cout << endl;
+	if(difx>dify){
+		dir=0;
+		lp=difx;
+	}else{
+		dir=1;
+		lp=dify;
 	}
+	
+	locpi* ani=new locpi;
+	ani->x=ox;
+	ani->y=oy;
+	ani->c=0;
+	ani->leg=NULL;
+	q->leg=ani;
+	
+	
+	while(true){
+		if(lp%k==0){
+			if(dir==0){
+				if(oy<fy)
+					ani->y++;
+				else
+					ani->y--;
+			}else{
+				if(ox<fx)
+					ani->x++;
+				else
+					ani->x--;
+			}
+		}
+		if(!dir){
+			if(ox<fx){
+				ani->x++;
+			}else{
+				ani->x--;
+			}
+		}else{
+			if(oy<fy){
+				ani->y++;
+			}else{
+				ani->y--;
+			}
+		}
+			
+		
+		for(int i=0; i<100; i++){
+			for(int j=0; j<250; j++){
+				if(exist(j, i, p)){
+					if(COL==0){
+						cout << red << '/' << reset;
+					}else{
+						cout << green << '/' << reset;
+					}		
+				}else{
+					cout << tabla[i][j];
+				}
 
+			}
+			cout << endl;
+		}
+		system("clear");
+		k++;
+	}
+	
 
-
-
-
-
-
-
-
-
-
-
-    return 0;
+	
+	return 0;
 }
-
-
-
-
 
 
 bool exist(int x, int y, locpi*p){
 	
 	while(p){
-		if(x>=p->x && x < p->x+14 && y>=p->y && y < p->y+5){
+		if(x>=p->x && x < p->x+14 && y>=p->y && y<p->y+5){
 			if(y==p->y+2){
 				COL=p->c;
-				cout << endl << x << " " << y << endl;
 				return true;
-
 			}else if((y==p->y || y==p->y+4) && (x>=p->x+3 && x<=p->x+10)){
 				COL=p->c;
-				cout << endl << x << " " << y << endl;
 				return true;
 			}else if((y==p->y+1 || y==p->y+3) && (x>=p->x+1 && x<=p->x+12)){
 				COL=p->c;
-				cout << endl << x << " " << y << endl;
 				return true;
 			}
 		}

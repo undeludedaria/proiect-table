@@ -3,13 +3,6 @@
 
 using namespace std;
 
-char piesa[7][20]={
-								 "////////",     
- 							 "////////////", 
-							"//////////////",
- 								"///////////", 
-   							  "///////"
-							};
 
 struct locpi{
 	int x;
@@ -25,8 +18,11 @@ struct layout{
 };
 
 
-
-
+void muta(int i, int j, layout lay[]){
+	lay[i].info--;
+	lay[j].info++;
+	lay[j].c=lay[i].c;
+}
 
 /*
 bool culoare(int n,nod*p){
