@@ -166,33 +166,34 @@ int main(){
 	
 	
 	while(true){
-		if(lp%k==0){
-			if(dir==0){
-				if(oy<fy)
-					ani->y++;
-				else
-					ani->y--;
-			}else{
-				if(ox<fx)
-					ani->x++;
-				else
-					ani->x--;
+		if(ox!=ani->x && oy!=ani->y){
+						if(lp%k==0){
+							if(dir==0){
+								if(oy<fy)
+									ani->y++;
+								else
+									ani->y--;
+							}else{
+								if(ox<fx)
+									ani->x++;
+								else
+									ani->x--;
+							}
+						}
+						if(!dir){
+							if(ox<fx){
+								ani->x++;
+							}else{
+								ani->x--;
+							}
+						}else{
+							if(oy<fy){
+								ani->y++;
+							}else{
+								ani->y--;
+							}
+						}
 			}
-		}
-		if(!dir){
-			if(ox<fx){
-				ani->x++;
-			}else{
-				ani->x--;
-			}
-		}else{
-			if(oy<fy){
-				ani->y++;
-			}else{
-				ani->y--;
-			}
-		}
-			
 		
 		for(int i=0; i<100; i++){
 			for(int j=0; j<250; j++){
@@ -213,7 +214,6 @@ int main(){
 		k++;
 	}
 	
-
 	
 	return 0;
 }
