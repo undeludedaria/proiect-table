@@ -1,9 +1,49 @@
 #include <stdlib.h>
 #include <iostream>
+#include <termios.h>
+#include <stdio.h>
 
 using namespace std;
 
 extern char col;
+char inpheader;
+
+
+static struct termios old, current;
+
+void initTermios(int echo) 
+{
+  tcgetattr(0, &old); 
+  current = old; 
+  current.c_lflag &= ~ICANON; 
+  if (echo) {
+      current.c_lflag |= ECHO; 
+  } else {
+      current.c_lflag &= ~ECHO; 
+  }
+  tcsetattr(0, TCSANOW, &current); 
+}
+
+void resetTermios(void) 
+{
+  tcsetattr(0, TCSANOW, &old);
+}
+
+char getch_(int echo) 
+{
+  char ch;
+  initTermios(echo);
+  ch = getchar();
+  resetTermios();
+  return ch;
+}
+
+char getch(void) 
+{
+  return getch_(0);
+}
+
+
 struct locpi{
 	int x;
 	int y;
@@ -17,8 +57,15 @@ struct layout{
 	bool c;
 };
 
+layout lay[24];
 
-void muta(int i, int j, layout lay[]){
+locpi*l;
+locpi*q;
+locpi*p;
+
+
+
+void muta(int i, int j){
 	lay[i].info--;
 	lay[j].info++;
 	lay[j].c=lay[i].c;
@@ -33,7 +80,8 @@ void afiseaza(){
 	} 
 }
 
-void reset_tabla(locpi*l){
+void reset_tabla(){
+	l=p;
 	while(l){
 		for(int i=l->y; i<l->y+5; i++){
 			if(i==l->y || i==l->y+4){
@@ -56,7 +104,7 @@ void reset_tabla(locpi*l){
 
 }
 
-void sync(locpi *&p, locpi *&l, locpi *&q, layout lay[]){
+void sync(){
 				bool prim=1;
 				int xp=12;
 				int yp=7;
@@ -117,7 +165,7 @@ void sync(locpi *&p, locpi *&l, locpi *&q, layout lay[]){
 
 }
 
-void distruge(locpi*&p){
+void distruge(){
 	locpi*temp;
 	temp=p;
 	while(p){
@@ -130,7 +178,8 @@ void distruge(locpi*&p){
 
 
 
-void update_tabla(locpi*l){
+void update_tabla(){
+	l=p;
 	while(l){
 		if(l->c==0)
 			col='=';
@@ -157,12 +206,29 @@ void update_tabla(locpi*l){
 
 
 
-void animeaza(int i, int j, locpi*&q, layout lay[], locpi*&p, locpi*&l){
+
+
+
+void animeaza(int i, int j){
 	if(lay[i].info==0){
-		cout << "Actiune nepermisa\n";
+		cout << "Actiune nepermisa!!!\n";
+		cin >> inpheader;
+		
+		char inp='A';
+		while(inp!=' '){
+		inp = getch();
+
+		}
 		return;
 	}else if(lay[i].c!=lay[j].c && lay[j].info!=0){
-		cout << "Actiune nepermisa\n";
+		cout << "Actiune nepermisa!!!\n";
+		cin >> inpheader;
+		char inp='A';
+		while(inp!=' '){
+		inp = getch();
+
+		}
+
 		return;
 	}
 	int ox, oy, fx, fy;
@@ -192,7 +258,7 @@ void animeaza(int i, int j, locpi*&q, layout lay[], locpi*&p, locpi*&l){
 		fy=77-lay[j].info*6;		
 	}
 
-	
+	ox=12;	
 
 	
 	
@@ -204,26 +270,12 @@ void animeaza(int i, int j, locpi*&q, layout lay[], locpi*&p, locpi*&l){
 	q->leg=ani;
 	
 	lay[i].info--;
-/*
-		
-	distruge(p);
-	sync(p, l, q, lay);
-	reset_tabla(p);
-	update_tabla(p);	
-	afiseaza();
-	
-	usleep(10000000000);
-	
-	l=p;
-	while(l){
-		cout << l->x << " " << l->y << " " << l->c << endl;
-		l=l->leg; 
-		if(!l){
-			usleep(100000);
-		}
-	}
-*/
-	q->leg=ani;
+
+	distruge();
+	sync();
+	reset_tabla();
+	update_tabla();
+
 	while(ani->x != fx || ani->y != fy){	
 					//frame		
 					
@@ -239,26 +291,27 @@ void animeaza(int i, int j, locpi*&q, layout lay[], locpi*&p, locpi*&l){
 						ani->y--;
 					}
 						
-					update_tabla(p);	
+					update_tabla();	
 				
 					afiseaza();				
 					usleep(10000);
 					
 					
-					reset_tabla(p);
-			
-					if(ani->x != fx ||  ani->y != fy)
-						system("clear");
+					reset_tabla();
+					//if(ani->x != fx ||  ani->y != fy)
+					system("clear");
 	}
+	
 	lay[j].info++;
 	lay[j].c=lay[i].c;
-	distruge(p);
-	sync(p, l, q, lay);
-	q->leg=ani;	
+	
+	distruge();
+	sync();
+		
 }
 
 
-int randnum(){
+int zar(){
     return rand()%6+1;;
 }
 
