@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "tabla.h"
+#include "numere.h"
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
@@ -16,13 +17,86 @@ using namespace std;
 
 
 char col;
+char car, cont;
+int zar1, zar2, zt;
 
 
+bool rezRestante(bool juc){
+	if(restante[juc]!=0){
+		cout << restante[juc] << " piese capturate\n";
+		if(juc==0){
+			cout << GRN << "Jucatorul 1\n" << WHT << "Apasa tasta spatiu pentru a da cu zarul\n";	
+		}
+		if(juc==1){
+			cout << RED << "Jucatorul 2\n" << WHT << "Apasa tasta spatiu pentru a da cu zarul\n";	
+		}
+		car='A';
+		while(car!=' '){
+			car=getch();
+		}
+		zar1=zar();
+		zar2=zar();
+		
+		convert(zar1);
+		cout << endl;
+		convert(zar2);
+		int i=juc==0?0:18;
+		bool posib=0;
+		int mm=juc==0?6:24;
+		if(juc==1){
+			for(; i<mm; i++){
+				if(lay[i].info==0 && (24-i==zar1||24-i==zar2)){
+					posib=1;
+					break;
+				}
+			}
+		}else(juc==0){
+			for(; i<mm; i++){
+				if(lay[i].info==0 && (i+1==zar1||i+1==zar2)){
+					posib=1;
+					break;
+				}
+			}
+		}
+		if(posib){
+			if(juc==0){	
+				cout << GRN << "Alege triunghiul de evadare\n";	
+				cin >> i;
+				while(i-1<0 || i-1>5 || lay[i-1].info!=0){
+					cout << "Actiune nepermisa!!!\n";
+					cin >> i;
+				}
+				restante[0]--;
+				lay[i-1].info++;
+				lay[i-1].c=0;
+			}else{	
+				cout << RED << "Alege triunghiul de evadare\n";	
+				cin >> i;
+				while(i-1<18 || i-1>23 || lay[i-1].info!=0){
+					cout << "Actiune nepermisa!!!\n";
+					cin >> i;
+				}
+				restante[1]--;
+				lay[i-1].info++;
+				lay[i-1].c=1;
 
+			}
+			
+		}
+		return 1;
+	}
+	return 0;
+}
+/*
+int i=juc==0?0:18;
+		for(; i<juc==0?6:24; i++){
+			if(lay[i].c==juc){
+				s+=lay[i].info;
+			}		
+		}
+		if(s==15){}
 
-
-
-
+*/
 
 int main(){
 				
@@ -77,45 +151,20 @@ int main(){
 	sync();
 	char n;	
 	int opt1, opt2;
-	char car, cont;
-	/*while(true){
-		update_tabla();
-		afiseaza();
-		
-		cout << "Alegeti actiunea: m/z\n";	
-		car='A';
-		while(car!='m' && car!='z'){
-			car=getch();
-		}
-		if(car=='z'){
-			cout << zar() << endl << zar() << endl;
-			cont='A';
-			while(cont!=' ')
-				cont=getch();
-		}else if(car=='m'){
-			cin >> opt;
-			cin >> opt2;
-			animeaza(opt-1, opt2-1);
-			
-			reset_tabla();
-			distruge();
-			sync();
-
-		}
-					
-		 
-		system("clear");
-	}*/
-
-	int zar1, zar2, zt;
 	int mutari;
 	bool dubla=false;
 	string jucCol;
 	juc=1;
+	
 	while(true){
 		juc=!juc;
+
 		update_tabla();
 		afiseaza();
+
+		if(rezRestante(juc)){
+			continue;
+		}
 		if(juc==0){
 			jucCol=GRN;
 			cout << GRN << "Jucatorul 1\n" << WHT << "Apasa tasta spatiu pentru a da cu zarul\n";	
@@ -129,7 +178,11 @@ int main(){
 		}
 		zar1=zar();
 		zar2=zar();
-		cout << zar1 << endl << zar2 << endl;
+		
+		convert(zar1);
+		cout << endl;
+		convert(zar2);
+
 		if(zar1==zar2){
 			dubla=true;
 			mutari=4;
@@ -146,7 +199,8 @@ int main(){
 			
 			cout << jucCol << "Alegeti mutarea\n"<< WHT;
 			if(mutari==1 && !dubla){
-				cout << '(' << zt << ')' << endl;
+				convert(zt);
+				cout << endl;
 			}
 
 			cin >> opt1 >> opt2;

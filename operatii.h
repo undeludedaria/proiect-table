@@ -9,6 +9,7 @@ extern char col;
 char inpheader;
 bool juc=0, term=1;
 
+int restante[2];
 
 static struct termios old, current;
 
@@ -84,8 +85,8 @@ void afiseaza(){
 void reset_tabla(){
 	l=p;
 	while(l){
-		for(int i=l->y; i<l->y+5; i++){
-			if(i==l->y || i==l->y+4){
+		for(int i=l->y-2; i<l->y+6; i++){
+			/*if(i==l->y || i==l->y+4){
 				for(int j=l->x+3; j<l->x+11; j++){
 					tabla[i][j]=emptyT[i][j];
 				}
@@ -97,7 +98,11 @@ void reset_tabla(){
 				for(int j=l->x; j<l->x+14; j++){
 					tabla[i][j]=emptyT[i][j];
 				}
+			}*/
+			for(int j=l->x-2; j<l->x+15; j++){
+				tabla[i][j]=emptyT[i][j];
 			}
+
 		}
 		l=l->leg;
 	}
@@ -207,7 +212,38 @@ void update_tabla(){
 
 
 bool validare(int i, int j, int mutari, int zt, int zar1, int zar2, bool juc){
-	if(lay[i].info==0){
+	if(i<0 || i>23 || j<0 || j >23){
+		cout << "Actiune nepermisa!!!\n";
+		char inp='A';
+		while(inp!=' ' && inp!=0x0d){
+			inp = getch();
+		}
+		term=0;
+		return 0;
+	}else if(!juc){
+		if(i>j){
+			cout << "Actiune nepermisa!!!\n";
+			char inp='A';
+			while(inp!=' ' && inp!=0x0d){
+				inp = getch();
+			}
+			term=0;
+			return 0;
+		}
+	}else if(juc){
+		if(i<j){
+			cout << "Actiune nepermisa!!!\n";
+			char inp='A';
+			while(inp!=' ' && inp!=0x0d){
+				inp = getch();
+			}
+			term=0;
+			return 0;
+
+		}
+
+
+		}else if(lay[i].info==0){
 		cout << "Actiune nepermisa!!!\n";
 				
 		char inp='A';
@@ -218,15 +254,6 @@ bool validare(int i, int j, int mutari, int zt, int zar1, int zar2, bool juc){
 		term=0;
 		return 0;
 	}else if(lay[i].c!=lay[j].c && lay[j].info>1){
-		cout << "Actiune nepermisa!!!\n";
-		char inp='A';
-		while(inp!=' ' && inp!=0x0d){
-			inp = getch();
-
-		}
-		term=0;
-		return 0;
-	}else if(i<0 || i>23 || j<0 || j >23){
 		cout << "Actiune nepermisa!!!\n";
 		char inp='A';
 		while(inp!=' ' && inp!=0x0d){
@@ -272,29 +299,7 @@ bool validare(int i, int j, int mutari, int zt, int zar1, int zar2, bool juc){
 		term=0;
 		return 0;
 
-	}else if(!juc){
-		if(i>j){
-			cout << "Actiune nepermisa!!!\n";
-			char inp='A';
-			while(inp!=' ' && inp!=0x0d){
-				inp = getch();
-			}
-			term=0;
-			return 0;
-
-		}
-
-	}else if(juc){
-		if(i<j){
-			cout << "Actiune nepermisa!!!\n";
-			char inp='A';
-			while(inp!=' ' && inp!=0x0d){
-				inp = getch();
-			}
-			term=0;
-			return 0;
-
-		}
+	
 	}
 
 	return 1;
@@ -380,7 +385,11 @@ void animeaza(int i, int j){
 					//if(ani->x != fx ||  ani->y != fy)
 					system("clear");
 	}
-		
+	if(lay[j].info==1 && lay[j].c != lay[i].c){
+		lay[j].info--;
+		restante[lay[j].c]++;
+	}
+
 	lay[j].info++;
 	lay[j].c=lay[i].c;
 	reset_tabla();	
